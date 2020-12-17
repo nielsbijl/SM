@@ -7,6 +7,8 @@ combinations = []
 
 pool = {}
 
+
+""" Alle combinaties van wedstrijden maken -> tuple(Team1, Team2)"""
 for thuis in teams:
     for uit in teams:
         key = tuple((thuis, uit))
@@ -16,6 +18,17 @@ print(combinations)
 
 
 def add_combination_to_dict(combination, win_chance, draw_chance, lose_chance):
+    """
+    Voegt aan een combinatie van 2 teams die tegen elkaar spelen, een lijst met 100 mogeijke uitkomsten.
+    Dit kan zijn bijvoorbeeld: Team1, Team2, Gelijkspel
+    Er is een kans dat het team wint of verliest of gelijkspel speelt, daarom 100 mogelijke uitkomsten.
+    Als bijvoorbeeld ajax 60% kans heeft om te winnen zal die 60x in de lijst van mogelijke uitkomsten staan.
+
+    :param combination: tuple(Home-team, away-team)
+    :param win_chance: kans dat home-team wint
+    :param draw_chance: kans dat er gelijk spel is
+    :param lose_chance: kans dat het home-team verliest
+    """
     for x in range(100):
         if x < win_chance:
             value.append(combination[0])
@@ -25,6 +38,10 @@ def add_combination_to_dict(combination, win_chance, draw_chance, lose_chance):
             value.append(combination[1])
     pool[combination] = value
 
+
+"""
+Voor elke mogelijke wedstrijd de combinatie met de kansen toevoegen aan een dictionary
+"""
 
 for combination in combinations:
     value = []
@@ -71,7 +88,10 @@ for combination in combinations:
     elif combination[0] == "Willem II" and combination[1] == "FC Utrecht":
         add_combination_to_dict(combination, 37, 25, 38)
 
-# Check if set is correct
+
+"""
+Checken of de pool dictionary correct is
+"""
 for match in combinations:
     if not pool[match]:
         print(match, pool[match])
@@ -80,12 +100,14 @@ for match in combinations:
               pool[match].count("Draw"), 'Lose:', pool[match].count(match[1]))
 
 
-# Write data to CSV
-w = csv.writer(open("pool.csv", "w"))
-w.writerow(["Home", "Away", "All-possible-outcome"])
-for key, val in pool.items():
-    w.writerow([key[0], key[1], val])
+# # Write data to CSV
+# w = csv.writer(open("pool.csv", "w"))
+# w.writerow(["Home", "Away", "All-possible-outcome"])
+# for key, val in pool.items():
+#     w.writerow([key[0], key[1], val])
 
-# Export as picle
+"""" 
+De pool dictionary exporteren als pickle bestand
+"""
 file_to_write = open("pool.pickle", "wb")
 pickle.dump(pool, file_to_write)
