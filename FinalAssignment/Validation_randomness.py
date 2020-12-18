@@ -1,5 +1,4 @@
 import matplotlib.pyplot as plt
-
 from FinalAssignment.MersenneTwister import MersenneTwister
 
 
