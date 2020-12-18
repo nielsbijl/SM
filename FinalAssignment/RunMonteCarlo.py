@@ -2,6 +2,7 @@ import pickle
 import random
 import pandas as pd
 import numpy as np
+from FinalAssignment.MersenneTwister import MersenneTwister
 
 
 def add_score(home, away, outcome, curr_score_dict, points=3):
@@ -41,7 +42,7 @@ def run_one_pool(curr_pool):
     }
     for match in curr_pool:
         if curr_pool[match]:
-            home, away, outcome = match[0], match[1], curr_pool[match][random.randint(0, 99)]
+            home, away, outcome = match[0], match[1], curr_pool[match][int(random.get_random_number_0_1()*100)]
             curr_score = add_score(home, away, outcome, curr_score)
     return curr_score
 
@@ -136,9 +137,7 @@ def get_monte_carlo_output_as_chance_pool_position_as_df(output_chance_pool_posi
     return df.sort_values(by=['1st pos'], ascending=False)
 
 
-
-
-
+random = MersenneTwister()
 
 with open('pool.pickle', 'rb') as handle:
     pool = pickle.load(handle)
@@ -151,6 +150,6 @@ output_chance_of_position_df = get_monte_carlo_output_as_chance_pool_position_as
 print(output)
 print(output_chance_of_position)
 
-print("\n\n")
+print("\n")
 
 print(output_chance_of_position_df)
