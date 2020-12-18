@@ -1,4 +1,3 @@
-import csv
 import pickle
 
 teams = ['Ajax', 'Feyenoord', 'PSV', 'FC Utrecht', 'Willem II']
@@ -99,12 +98,6 @@ for match in combinations:
         print(match, 'Total lenght options:', len(pool[match]), 'Win:', pool[match].count(match[0]), 'Draw:',
               pool[match].count("Draw"), 'Lose:', pool[match].count(match[1]))
 
-
-# # Write data to CSV
-# w = csv.writer(open("pool.csv", "w"))
-# w.writerow(["Home", "Away", "All-possible-outcome"])
-# for key, val in pool.items():
-#     w.writerow([key[0], key[1], val])
 
 """" 
 De pool dictionary exporteren als pickle bestand

@@ -76,7 +76,7 @@ def rank_teams_of_curr_run(curr_score, curr_ranking):
 def run_monte_carlo(runs, pool):
     """
     Het draaien van de monte carlo machine speelt gewoon heel veel pools (de hoeveelheid runs).
-    Na elke het spelen van een pool wordt de ranking van die partij toegevoegd aan de totale ranking.
+    Na het spelen van een pool wordt de ranking van die partij toegevoegd aan de totale ranking.
     Als bijvoorbeeld ajax 10x eerste wordt, dan staat die 10x in de lijst van total_ranking[1]
 
     :param runs: Hoevaak je de machine wilt runnen
