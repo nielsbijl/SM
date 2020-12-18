@@ -1,4 +1,4 @@
-
+import matplotlib.pyplot as plt
 
 class MersenneTwister:
 
@@ -81,8 +81,4 @@ class MersenneTwister:
     def get_random_number_0_1(self):
         return self.get_random_number() / 4294967295
 
-
-test = MersenneTwister(seed=5489)
-print(test.get_random_number())
-print(test.get_random_number_0_1())
 
