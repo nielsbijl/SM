@@ -1,5 +1,3 @@
-import matplotlib.pyplot as plt
-
 class MersenneTwister:
 
     def __init__(self, seed=1234):
@@ -42,15 +40,9 @@ class MersenneTwister:
         y = []
         for i in range(self.n):
             y1 = self.array[i]
-            if i < (self.n - 1):
-                y2 = (self.array[i + 1])
-            else:
-                y2 = (self.array[i - self.n])
-            if (self.m + i) < self.n:
-                y3 = (self.array[i + self.m])
-            else:
-                y3 = (self.array[self.m - i])
-            x = bin(y1)[2] + bin(y2)[3:]
+            y2 = self.array[(i+1) % self.n]  # When i+1 is out of index it needs to start again by 0
+            y3 = (self.array[(i + self.m) % self.n]) # When i+m is out of index it needs to start again by 0
+            x = bin(y1)[2] + bin(y2)[3:]  # (Y1 upper mask) + (Y2 lower mask)
             if x[-1] == '0':
                 x = int(x, 2) >> 1
             elif x[-1] == '1':
@@ -82,3 +74,5 @@ class MersenneTwister:
         return self.get_random_number() / 4294967295
 
 
+test = MersenneTwister(seed=5489)
+print(test.array)
