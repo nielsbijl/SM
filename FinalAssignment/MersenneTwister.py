@@ -41,7 +41,7 @@ class MersenneTwister:
         for i in range(self.n):
             y1 = self.array[i]
             y2 = self.array[(i+1) % self.n]  # When i+1 is out of index it needs to start again by 0
-            y3 = (self.array[(i + self.m) % self.n]) # When i+m is out of index it needs to start again by 0
+            y3 = (self.array[(i + self.m) % self.n])  # When i+m is out of index it needs to start again by 0
             x = bin(y1)[2] + bin(y2)[3:]  # (Y1 upper mask) + (Y2 lower mask)
             if x[-1] == '0':
                 x = int(x, 2) >> 1
