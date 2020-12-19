@@ -1,28 +1,5 @@
-import math
-
-
-def poisson(doelpunt, gemiddelde_doelpunt):
-    return ((gemiddelde_doelpunt ** doelpunt) / math.factorial(doelpunt)) * (math.e ** (-gemiddelde_doelpunt))
-
-
-def team_goals_chances(gemiddeldes):
-    home_chances = {}
-    away_chances = {}
-    for k in range(10):
-        home_chances[k] = poisson(k, gemiddeldes[0])
-        away_chances[k] = poisson(k, gemiddeldes[1])
-    return tuple((home_chances, away_chances))
-
-
-def add_goal_chances_to_pool(curr_pool):
-    new_pool = {}
-    for match in curr_pool:
-        if curr_pool[match]:
-            new_pool[match] = team_goals_chances(curr_pool[match])
-        else:
-            new_pool[match] = None
-    return new_pool
-
+from FinalAssignment.MonteCarloWithGoals import *
+from FinalAssignment.MonteCarlo import *
 
 pool = {
     ('Ajax', 'Ajax'): None, ('Ajax', 'Feyenoord'): ((1.5), (1.5)), ('Ajax', 'PSV'): ((1.5), (1.5)),
@@ -37,5 +14,12 @@ pool = {
     ('Willem II', 'Ajax'): ((1.5), (1.5)), ('Willem II', 'Feyenoord'): ((1.5), (1.5)),
     ('Willem II', 'PSV'): ((1.5), (1.5)), ('Willem II', 'FC Utrecht'): ((1.5), (1.5)), ('Willem II', 'Willem II'): None}
 
-pool_with_goal_chances = add_goal_chances_to_pool(pool)
+pool = add_goal_chances_to_pool(pool)
 
+amount_of_runs = 10000
+
+output = run_monte_carlo(amount_of_runs, pool, True)
+output_chance_of_position = get_monte_carlo_output_as_chance_pool_position(output)
+output_chance_of_position_df = get_monte_carlo_output_as_chance_pool_position_as_df(output_chance_of_position)
+
+print(output_chance_of_position_df)
