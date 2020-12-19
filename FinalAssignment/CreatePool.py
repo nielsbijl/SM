@@ -16,7 +16,7 @@ for thuis in teams:
 print(combinations)
 
 
-def add_combination_to_dict(combination, win_chance, draw_chance, lose_chance):
+def add_combination_to_dict(combination, win_chance, draw_chance, lose_chance, curr_pool):
     """
     Voegt aan een combinatie van 2 teams die tegen elkaar spelen, een lijst met 100 mogeijke uitkomsten.
     Dit kan zijn bijvoorbeeld: Team1, Team2, Gelijkspel
@@ -35,7 +35,8 @@ def add_combination_to_dict(combination, win_chance, draw_chance, lose_chance):
             value.append("Draw")
         if x < lose_chance:
             value.append(combination[1])
-    pool[combination] = value
+    curr_pool[combination] = value
+    return curr_pool
 
 
 """
@@ -47,56 +48,56 @@ for combination in combinations:
     if combination[0] == combination[1]:
         pool[combination] = None
     elif combination[0] == "Ajax" and combination[1] == "Feyenoord":
-        add_combination_to_dict(combination, 65, 17, 18)
+        pool = add_combination_to_dict(combination, 65, 17, 18, pool)
     elif combination[0] == "Ajax" and combination[1] == "PSV":
-        add_combination_to_dict(combination, 54, 21, 25)
+        pool = add_combination_to_dict(combination, 54, 21, 25, pool)
     elif combination[0] == "Ajax" and combination[1] == "FC Utrecht":
-        add_combination_to_dict(combination, 74, 14, 12)
+        pool = add_combination_to_dict(combination, 74, 14, 12, pool)
     elif combination[0] == "Ajax" and combination[1] == "Willem II":
-        add_combination_to_dict(combination, 78, 13, 9)
+        pool = add_combination_to_dict(combination, 78, 13, 9, pool)
     elif combination[0] == "Feyenoord" and combination[1] == "Ajax":
-        add_combination_to_dict(combination, 30, 21, 49)
+        pool = add_combination_to_dict(combination, 30, 21, 49, pool)
     elif combination[0] == "Feyenoord" and combination[1] == "PSV":
-        add_combination_to_dict(combination, 37, 24, 39)
+        pool = add_combination_to_dict(combination, 37, 24, 39, pool)
     elif combination[0] == "Feyenoord" and combination[1] == "FC Utrecht":
-        add_combination_to_dict(combination, 51, 22, 27)
+        pool = add_combination_to_dict(combination, 51, 22, 27, pool)
     elif combination[0] == "Feyenoord" and combination[1] == "Willem II":
-        add_combination_to_dict(combination, 60, 21, 19)
+        pool = add_combination_to_dict(combination, 60, 21, 19, pool)
     elif combination[0] == "PSV" and combination[1] == "Ajax":
-        add_combination_to_dict(combination, 39, 22, 39)
+        pool = add_combination_to_dict(combination, 39, 22, 39, pool)
     elif combination[0] == "PSV" and combination[1] == "Feyenoord":
-        add_combination_to_dict(combination, 54, 22, 24)
+        pool = add_combination_to_dict(combination, 54, 22, 24, pool)
     elif combination[0] == "PSV" and combination[1] == "FC Utrecht":
-        add_combination_to_dict(combination, 62, 20, 18)
+        pool = add_combination_to_dict(combination, 62, 20, 18, pool)
     elif combination[0] == "PSV" and combination[1] == "Willem II":
-        add_combination_to_dict(combination, 62, 22, 16)
+        pool = add_combination_to_dict(combination, 62, 22, 16, pool)
     elif combination[0] == "FC Utrecht" and combination[1] == "Ajax":
-        add_combination_to_dict(combination, 25, 14, 61)
+        pool = add_combination_to_dict(combination, 25, 14, 61, pool)
     elif combination[0] == "FC Utrecht" and combination[1] == "Feyenoord":
-        add_combination_to_dict(combination, 37, 23, 40)
+        pool = add_combination_to_dict(combination, 37, 23, 40, pool)
     elif combination[0] == "FC Utrecht" and combination[1] == "PSV":
-        add_combination_to_dict(combination, 29, 24, 47)
+        pool = add_combination_to_dict(combination, 29, 24, 47, pool)
     elif combination[0] == "FC Utrecht" and combination[1] == "Willem II":
-        add_combination_to_dict(combination, 52, 23, 25)
+        pool = add_combination_to_dict(combination, 52, 23, 25, pool)
     elif combination[0] == "Willem II" and combination[1] == "Ajax":
-        add_combination_to_dict(combination, 17, 18, 65)
+        pool = add_combination_to_dict(combination, 17, 18, 65, pool)
     elif combination[0] == "Willem II" and combination[1] == "Feyenoord":
-        add_combination_to_dict(combination, 20, 26, 54)
+        pool = add_combination_to_dict(combination, 20, 26, 54, pool)
     elif combination[0] == "Willem II" and combination[1] == "PSV":
-        add_combination_to_dict(combination, 23, 24, 53)
+        pool = add_combination_to_dict(combination, 23, 24, 53, pool)
     elif combination[0] == "Willem II" and combination[1] == "FC Utrecht":
-        add_combination_to_dict(combination, 37, 25, 38)
+        pool = add_combination_to_dict(combination, 37, 25, 38, pool)
 
 
 """
 Checken of de pool dictionary correct is
 """
-for match in combinations:
-    if not pool[match]:
-        print(match, pool[match])
-    else:
-        print(match, 'Total lenght options:', len(pool[match]), 'Win:', pool[match].count(match[0]), 'Draw:',
-              pool[match].count("Draw"), 'Lose:', pool[match].count(match[1]))
+# for match in combinations:
+#     if not pool[match]:
+#         print(match, pool[match])
+#     else:
+#         print(match, 'Total lenght options:', len(pool[match]), 'Win:', pool[match].count(match[0]), 'Draw:',
+#               pool[match].count("Draw"), 'Lose:', pool[match].count(match[1]))
 
 
 """" 
@@ -104,3 +105,5 @@ De pool dictionary exporteren als pickle bestand
 """
 file_to_write = open("pool.pickle", "wb")
 pickle.dump(pool, file_to_write)
+
+keys = {('Ajax', 'Ajax'): None, ('Ajax', 'Feyenoord'): (65, 17, 18), ('Ajax', 'PSV'): (54, 21, 25), ('Ajax', 'FC Utrecht'): (74, 14, 12), ('Ajax', 'Willem II'): (78, 13, 9), ('Feyenoord', 'Ajax'): (30, 21, 49), ('Feyenoord', 'Feyenoord'): None, ('Feyenoord', 'PSV'): (37, 24, 39), ('Feyenoord', 'FC Utrecht'): (51, 22, 27), ('Feyenoord', 'Willem II'): (60, 21, 19), ('PSV', 'Ajax'): (39, 22, 39), ('PSV', 'Feyenoord'): (54, 22, 24), ('PSV', 'PSV'): None, ('PSV', 'FC Utrecht'): (62, 20, 18), ('PSV', 'Willem II'): (62, 22, 16), ('FC Utrecht', 'Ajax'): (25, 14, 61), ('FC Utrecht', 'Feyenoord'): (37, 23, 40), ('FC Utrecht', 'PSV'): (29, 24, 47), ('FC Utrecht', 'FC Utrecht'): None, ('FC Utrecht', 'Willem II'): (52, 23, 25), ('Willem II', 'Ajax'): (17, 18, 65), ('Willem II', 'Feyenoord'): (20, 26, 54), ('Willem II', 'PSV'): (23, 24, 53), ('Willem II', 'FC Utrecht'): (37, 25, 38), ('Willem II', 'Willem II'): None}
