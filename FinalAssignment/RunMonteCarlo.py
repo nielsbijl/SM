@@ -25,12 +25,34 @@ def add_score(home, away, outcome, curr_score_dict, points=3):
     return curr_score_dict
 
 
+def run_one_match(match, chance):
+    """
+    Deze functie speelt 1 wedstrijd
+
+    :param match: tuple(home, away)
+    :param chance: tuple(home_win_chance, draw_chance, away_win_chance)
+    :return: home | "draw" | away
+            Return a string of the winning team or draw
+    """
+    home = match[0]
+    away = match[1]
+    home_win = chance[0]
+    draw = chance[1]
+    random_number = random.get_random_number_0_1() * 100
+    if 0 <= random_number < home_win:
+        return home
+    elif home_win <= random_number < (home_win + draw):
+        return "Draw"
+    elif (home_win + draw) <= random_number < 100:
+        return away
+
+
 def run_one_pool(curr_pool):
     """
     Runt 1x de pool, dus alle combinaties van teams worden gespeeld.
     Na 1x spelen van de pool komt er een huidige score uit met welke teams welke punten hebben.
 
-    :param curr_pool:  Dictionoary Key: Team VS Team, Value: welke mogelijke uitkomsten het allemaal heeft (100 mogelijke uitkomsten)
+    :param curr_pool:  Dictionoary Key: Team VS Team, Value: welke kans elke uitkomst heeft
     :return: Dictionary: Key: Team, Value: Hoeveel punten het team heeft na het spelen van de pool
     """
     curr_score = {
@@ -42,8 +64,9 @@ def run_one_pool(curr_pool):
     }
     for match in curr_pool:
         if curr_pool[match]:
-            home, away, outcome = match[0], match[1], curr_pool[match][int(random.get_random_number_0_1()*100)]
-            curr_score = add_score(home, away, outcome, curr_score)
+            teamvsteam, chance = match, curr_pool[match]
+            outcome = run_one_match(teamvsteam, chance)
+            curr_score = add_score(teamvsteam[0], teamvsteam[1], outcome, curr_score)
     return curr_score
 
 
@@ -137,10 +160,15 @@ def get_monte_carlo_output_as_chance_pool_position_as_df(output_chance_pool_posi
     return df.sort_values(by=['1st pos'], ascending=False)
 
 
-random = MersenneTwister()
+pool = {
+    ('Ajax', 'Ajax'): None, ('Ajax', 'Feyenoord'): (65, 17, 18), ('Ajax', 'PSV'): (54, 21, 25), ('Ajax', 'FC Utrecht'): (74, 14, 12), ('Ajax', 'Willem II'): (78, 13, 9),
+    ('Feyenoord', 'Ajax'): (30, 21, 49), ('Feyenoord', 'Feyenoord'): None, ('Feyenoord', 'PSV'): (37, 24, 39), ('Feyenoord', 'FC Utrecht'): (51, 22, 27), ('Feyenoord', 'Willem II'): (60, 21, 19),
+    ('PSV', 'Ajax'): (39, 22, 39), ('PSV', 'Feyenoord'): (54, 22, 24), ('PSV', 'PSV'): None, ('PSV', 'FC Utrecht'): (62, 20, 18), ('PSV', 'Willem II'): (62, 22, 16),
+    ('FC Utrecht', 'Ajax'): (25, 14, 61), ('FC Utrecht', 'Feyenoord'): (37, 23, 40), ('FC Utrecht', 'PSV'): (29, 24, 47), ('FC Utrecht', 'FC Utrecht'): None, ('FC Utrecht', 'Willem II'): (52, 23, 25),
+    ('Willem II', 'Ajax'): (17, 18, 65), ('Willem II', 'Feyenoord'): (20, 26, 54), ('Willem II', 'PSV'): (23, 24, 53), ('Willem II', 'FC Utrecht'): (37, 25, 38), ('Willem II', 'Willem II'): None}
 
-with open('pool.pickle', 'rb') as handle:
-    pool = pickle.load(handle)
+
+random = MersenneTwister()
 
 amount_of_runs = 10000
 
@@ -149,6 +177,7 @@ output_chance_of_position = get_monte_carlo_output_as_chance_pool_position(outpu
 output_chance_of_position_df = get_monte_carlo_output_as_chance_pool_position_as_df(output_chance_of_position)
 print(output)
 print(output_chance_of_position)
+print(pool)
 
 print("\n")
 

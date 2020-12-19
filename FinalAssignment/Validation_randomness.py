@@ -20,6 +20,7 @@ plt.hist(result)
 plt.gca().set(title='Frequency Histogram', ylabel='Frequency')
 plt.show()
 
+print(min(result), max(result))
 """
 Er is in het histogram duidelijk te zien dat na duizende keren aanroepen van een random getal
 de distributie zo goed als gelijk is, dit is te zien aan de vorm van het histogram: vierkant.
