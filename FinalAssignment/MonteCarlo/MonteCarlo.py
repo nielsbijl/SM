@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
-from FinalAssignment.MersenneTwister import MersenneTwister
-from FinalAssignment.MonteCarloWithGoals import get_goals_scored_by_team, run_one_match_with_goals
+from FinalAssignment.RandomGenerator.MersenneTwister import MersenneTwister
+from FinalAssignment.MonteCarlo.MonteCarloWithGoals import run_one_match_with_goals
 
 
 def add_score(home, away, outcome, curr_score_dict, points=3):

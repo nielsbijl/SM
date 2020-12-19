@@ -1,4 +1,4 @@
-from FinalAssignment.MonteCarlo import *
+from FinalAssignment.MonteCarlo.MonteCarlo import *
 
 pool = {
     ('Ajax', 'Ajax'): None, ('Ajax', 'Feyenoord'): (65, 17, 18), ('Ajax', 'PSV'): (54, 21, 25), ('Ajax', 'FC Utrecht'): (74, 14, 12), ('Ajax', 'Willem II'): (78, 13, 9),

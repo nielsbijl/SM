@@ -1,5 +1,5 @@
 import math
-from FinalAssignment.MersenneTwister import MersenneTwister
+from FinalAssignment.RandomGenerator.MersenneTwister import MersenneTwister
 
 
 def poisson(doelpunt, gemiddelde_doelpunt):
