@@ -8,11 +8,12 @@ pool = {
     ('Willem II', 'Ajax'): (17, 18, 65), ('Willem II', 'Feyenoord'): (20, 26, 54), ('Willem II', 'PSV'): (23, 24, 53), ('Willem II', 'FC Utrecht'): (37, 25, 38), ('Willem II', 'Willem II'): None}
 
 
-amount_of_runs = 1000
+amount_of_runs = 10000
 
 output = run_monte_carlo(amount_of_runs, pool)
 output_chance_of_position = get_monte_carlo_output_as_chance_pool_position(output)
 output_chance_of_position_df = get_monte_carlo_output_as_chance_pool_position_as_df(output_chance_of_position)
 
+print("Monte Carlo Machine without goals:")
 print(output_chance_of_position_df)
 
