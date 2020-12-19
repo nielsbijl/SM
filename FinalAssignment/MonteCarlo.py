@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 from FinalAssignment.MersenneTwister import MersenneTwister
+from FinalAssignment.MonteCarloWithGoals import get_goals_scored_by_team, run_one_match_with_goals
 
 
 def add_score(home, away, outcome, curr_score_dict, points=3):
@@ -45,43 +46,13 @@ def run_one_match(match, chance):
         return away
 
 
-def get_goals_scored_by_team(match, pool):
-    home_scored = 0
-    away_scored = 0
-    home_random = random.get_random_number_0_1()
-    away_random = random.get_random_number_0_1()
-    home_chances = pool[match][0]
-    away_chances = pool[match][1]
-    curr_chance_home = 0
-    curr_chance_away = 0
-    for i in range(len(home_chances)):
-        if curr_chance_home < home_random < (home_chances[i] + curr_chance_home):
-            home_scored = i
-        curr_chance_home += home_chances[i]
-        if curr_chance_away < away_random < (away_chances[i] + curr_chance_away):
-            away_scored = i
-        curr_chance_away += away_chances[i]
-    return tuple((home_scored, away_scored))
-
-
-def run_one_match_with_goals(match, pool):
-    outcome = get_goals_scored_by_team(match, pool)
-    home = match[0]
-    away = match[1]
-    if outcome[0] == outcome[1]:
-        return "Draw"
-    elif outcome[0] > outcome[1]:
-        return home
-    else:
-        return away
-
-
 def run_one_pool(curr_pool, goals=False):
     """
     Runt 1x de pool, dus alle combinaties van teams worden gespeeld.
     Na 1x spelen van de pool komt er een huidige score uit met welke teams welke punten hebben.
 
     :param curr_pool:  Dictionoary Key: Team VS Team, Value: welke kans elke uitkomst heeft
+    :param goals: Of je een pool runt met goals True | False
     :return: Dictionary: Key: Team, Value: Hoeveel punten het team heeft na het spelen van de pool
     """
     curr_score = {
@@ -137,6 +108,7 @@ def run_monte_carlo(runs, pool, goals=False):
 
     :param runs: Hoevaak je de machine wilt runnen
     :param pool: Welke partijen allemaal tegen elkaar spelen en wat de kans is dat ze winnen/verliezen/gelijk
+    :param goals: Of je een pool runt met goals True | False
     :return: Een dictionary van alle rankings van alle gespeelde pools.
             Key: Welke rank/positie (1e t/m 5e plek)
             Value: Een lijst met hoevaak een team op die plek is gekomen

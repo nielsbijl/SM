@@ -9,5 +9,6 @@ amount_of_runs = 10000
 output = run_monte_carlo(amount_of_runs, pool, True)
 output_chance_of_position = get_monte_carlo_output_as_chance_pool_position(output)
 output_chance_of_position_df = get_monte_carlo_output_as_chance_pool_position_as_df(output_chance_of_position)
+
 print('Monte Carlo Machine with goals:')
 print(output_chance_of_position_df)
